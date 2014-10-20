@@ -13,7 +13,7 @@ app.handlers = {
                 } else {
                     app.centini.disconnect();
                     
-                    $('#login-failed > .modal-dialog > .modal-content > .modal-body').text(headers.message);
+                    $('#login-failed .modal-body').text(headers.message);
                     $('#login-failed').modal();
                 }
             },
@@ -22,7 +22,7 @@ app.handlers = {
             },
             status: function (headers) {
                 if (headers.level === 'Administrator') {
-                   app.common.template.administration();
+                   app.common.template.administration.base();
                 }
             },
             changePassword: function (headers) {
@@ -41,6 +41,8 @@ app.handlers = {
     },
     loginForm: {
         loaded: function (responseText, textStatus, jqXHR) {
+            $('#content-wrap').removeClass('container-fluid').addClass('container');
+            
             $('#login-form').submit(app.handlers.loginForm.submit);
         },
         submit: function (event) {
@@ -51,6 +53,8 @@ app.handlers = {
     },
     dashboard: {
         loaded: function (responseText, textStatus, jqXHR) {
+            $('#content-wrap').removeClass('container').addClass('container-fluid');
+            
             $('#change-password').click(app.handlers.dashboard.changePassword.show);
             $('#change-password-form').submit(app.handlers.dashboard.changePassword.submit);
             $('#change-password-dialog').on('hidden.bs.modal', app.handlers.dashboard.changePassword.hidden);
@@ -92,7 +96,12 @@ app.handlers = {
     },
     administration: {
         loaded: function (responseText, textStatus, jqXHR) {
-            ;
+            $('#queue-statistics').click(app.common.template.administration.queueStatistics);
+        },
+        queueStatistics: {
+            loaded: function (responseText, textStatus, jqXHR) {
+                ;
+            }
         }
     }
 };

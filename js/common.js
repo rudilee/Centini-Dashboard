@@ -10,8 +10,13 @@ app.common = {
         dashboard: function (headers) {
             $('#content-wrap').load('templates/dashboard.html', app.handlers.dashboard.loaded);
         },
-        administration: function () {
-            $('#content-body').load('templates/administration.html', app.handlers.administration.loaded);
+        administration: {
+            base: function () {
+                $('#content-body').load('templates/administration.html', app.handlers.administration.loaded);
+            },
+            queueStatistics: function () {
+                $('#content-panel').load('templates/reports/queue_statistics.html', app.handlers.administration.queueStatistics.loaded);
+            }
         }
     }
 };
