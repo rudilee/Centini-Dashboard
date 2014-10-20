@@ -46,6 +46,8 @@ CentiniClient.prototype.onError = function (event) {
 };
 
 CentiniClient.prototype.onMessage = function (event) {
+//    console.log('Headers: ' + event.data);
+    
     var headers = JSON.parse(event.data),
         isRequest = typeof headers.request !== 'undefined',
         callbackKey = isRequest ? headers.request : headers.response;
@@ -185,7 +187,7 @@ CentiniClient.prototype.status = function () {
 
 CentiniClient.prototype.changePassword = function (username, password, newPassword) {
     var headers = {
-        newPassword: newPassword
+        new_password: newPassword
     };
     
     if (username !== null)

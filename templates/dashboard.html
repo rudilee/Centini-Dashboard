@@ -1,3 +1,61 @@
+<div id="error-dialog" class="modal fade in" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Terjadi Kesalahan</h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="change-password-dialog" class="modal fade in" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Ganti Password</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert hidden"></div>
+                <form id="change-password-form" class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label" for="password">Password Lama</label>
+                        <div class="col-sm-7">
+                            <input type="password" class="form-control" id="password" placeholder="Password yang terkini" required autofocus>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label" for="new-password">Password Baru</label>
+                        <div class="col-sm-7">
+                            <input type="password" class="form-control" id="new-password" placeholder="Password baru, minimal 6 karakter" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label" for="new-password-confirm">Konfirmasi Password Baru</label>
+                        <div class="col-sm-7">
+                            <input type="password" class="form-control required" id="new-password-confirm" placeholder="Ketikan ulang password baru" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-5 col-sm-7">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -7,54 +65,21 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/">Centini</a>
+			<span class="navbar-brand navbar-brand-active">Centini Dashboard</span>
 		</div>
 
 		<div class="collapse navbar-collapse" id="navbar-collapse">
-			<ul class="nav navbar-nav">
-				<li class="dropdown">
-					<a id="issue-menu" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
-						Issues
-						<span id="open" class="badge alert-danger" data-toggle="tooltip" data-placement="bottom" data-original-title="Open">0</span>
-						<span id="in_progress" class="badge alert-info" data-toggle="tooltip" data-placement="bottom" data-original-title="In-Progress">0</span>
-						<span id="resolved" class="badge alert-success" data-toggle="tooltip" data-placement="bottom" data-original-title="Resolved">0</span>
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu" role="menu" aria-labelledby="issue-menu">
-						<li role="presentation">
-							<a role="menuitem" tabindex="-1" href="#create_new_issue"><i class="fa fa-file-o"></i> Create New Issue</a>
-						</li>
-						<li role="presentation">
-							<a role="menuitem" tabindex="-1" href="#list_issues"><i class="fa fa-list"></i> List Issues</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-					<a id="notification-menu" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
-						<span class="glyphicon glyphicon-bell"></span>
-					</a>
-					<ul class="dropdown-menu" role="menu" aria-labelledby="notification-menu">
-					</ul>
-				</li>
-				<li class="dropdown">
-					<a id="settings-menu" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
-						<span class="glyphicon glyphicon-cog"></span>
-					</a>
-					<ul class="dropdown-menu" role="menu" aria-labelledby="settings-menu">
-					</ul>
-				</li>
 				<li class="dropdown">
 					<a id="user-menu" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
 						<span class="glyphicon glyphicon-user"></span>
 					</a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="user-menu">
 						<li role="presentation">
-							<a role="menuitem" tabindex="-1" href="#change_password"><i class="fa fa-key"></i> Change Password</a>
+							<a role="menuitem" tabindex="-1" href="#" id="change-password"><i class="fa fa-key"></i> Ganti Password</a>
 						</li>
 						<li role="presentation">
-							<a role="menuitem" tabindex="-1" href="#" id="logout"><i class="fa fa-sign-out"></i> Logout (<b id="name">rudilee</b>)</a>
+							<a role="menuitem" tabindex="-1" href="#" id="logout"><i class="fa fa-sign-out"></i> Logout</a>
 						</li>
 					</ul>
 				</li>
@@ -62,3 +87,5 @@
 		</div>
 	</div>
 </nav>
+
+<div id="content-body" class="container-fluid"></div>
