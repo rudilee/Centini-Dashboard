@@ -24,5 +24,5 @@ jQuery(document).ready(function ($) {
     });
 	
     // Tampilin form login
-    app.common.template.loginForm();
+    app.common.template('#content-wrap', 'login.html', app.handlers.loginForm.loaded)();;
 });

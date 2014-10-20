@@ -9,20 +9,20 @@ app.handlers = {
         response: {
             login: function (headers) {
                 if (headers.success) {
-                    app.common.template.dashboard();
+                    app.common.template('#content-wrap', 'dashboard.html', app.handlers.dashboard.loaded)();
                 } else {
                     app.centini.disconnect();
-                    
-                    $('#login-failed .modal-body').text(headers.message);
-                    $('#login-failed').modal();
+                    app.common.error(headers.message, 'Login gagal');
                 }
             },
             logout: function (headers) {
-                app.common.template.loginForm();
+                app.common.template('#content-wrap', 'login.html', app.handlers.loginForm.loaded)();
             },
             status: function (headers) {
+                $('#user-fullname').text(headers.fullname);
+                
                 if (headers.level === 'Administrator') {
-                   app.common.template.administration.base();
+                   app.common.template('#content-body', 'administration.html', app.handlers.administration.loaded)();
                 }
             },
             changePassword: function (headers) {
@@ -96,7 +96,7 @@ app.handlers = {
     },
     administration: {
         loaded: function (responseText, textStatus, jqXHR) {
-            $('#queue-statistics').click(app.common.template.administration.queueStatistics);
+            $('#queue-statistics').click(app.common.template('#content-panel', 'reports/queue_statistics.html', app.handlers.administration.queueStatistics.loaded));
         },
         queueStatistics: {
             loaded: function (responseText, textStatus, jqXHR) {

@@ -5,5 +5,8 @@ app.settings = {
     centini: {
         host: 'localhost',
         port: 8080
+    },
+    template: {
+        path: 'templates'
     }
 };
