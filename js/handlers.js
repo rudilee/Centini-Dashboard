@@ -23,6 +23,8 @@ app.handlers = {
                 
                 if (headers.level === 'Administrator') {
                     app.common.template('#content-body', 'administration.html', app.handlers.administration.loaded)();
+                } else if (['Agent', 'Supervisor', 'Manager'].indexOf(headers.level) > -1) {
+                    app.common.template('#content-body', 'client.html', app.handlers.client.loaded)();
                 }
             },
             changePassword: function (headers) {
@@ -44,6 +46,8 @@ app.handlers = {
             $('#content-wrap').removeClass('container-fluid').addClass('container');
             
             $('#login-form').submit(app.handlers.loginForm.submit);
+            
+            $('#external-url').addClass('hidden').attr('src', '');
         },
         submit: function (event) {
             app.centini.connectTo(app.settings.centini.host, app.settings.centini.port);
@@ -82,6 +86,7 @@ app.handlers = {
             },
             hidden: function () {
                 $('#change-password-dialog .alert').addClass('hidden');
+                
                 $('#password').val('');
                 $('#new-password').val('');
                 $('#new-password-confirm').val('');
@@ -110,6 +115,24 @@ app.handlers = {
         queueStatistics: {
             loaded: function (responseText, textStatus, jqXHR) {
                 ;
+            }
+        }
+    },
+    client: {
+        loaded: function (responseText, textStatus, jqXHR) {
+            $('#centini-client-button').click(app.handlers.client.centiniClient.show);
+            $('#centini-client .close').click(app.handlers.client.centiniClient.hide);
+            
+            $('#external-url').removeClass('hidden').attr('src', 'https://demos2.softaculous.com/SugarCRM/index.php');
+        },
+        centiniClient: {
+            show: function (event) {
+                $('#centini-client').show();
+                $('#centini-client-button').addClass('hidden');
+            },
+            hide: function (event) {
+                $('#centini-client').hide();
+                $('#centini-client-button').removeClass('hidden');
             }
         }
     }

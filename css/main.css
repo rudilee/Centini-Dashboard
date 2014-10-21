@@ -1,6 +1,11 @@
+html {
+    height: 100%;
+}
+
 body {
     padding-top: 40px;
-    padding-bottom: 40px;
+    padding-bottom: 16px;
+    height: 100%;
 }
 
 #login-form {
@@ -97,4 +102,31 @@ body {
 .row-fixed {
     width: 10px;
     text-align: center;
+}
+
+#client-tabs {
+    margin-top: 30px;
+}
+
+.nav-tabs > li .close {
+    margin-left: 10px;
+}
+
+#centini-client {
+    position: fixed;
+    top: 65px;
+    right: 10px;
+    width: 250px;
+    height: 400px;
+}
+
+#centini-client .close {
+    margin-top: -3px;
+}
+
+#external-url {
+    width: 100%;
+    height: 100%;
+    margin-top: 11px;
+    border: none;
 }
