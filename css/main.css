@@ -89,8 +89,8 @@ body {
 }
 
 .report-icon {
-    height: 100px;
-    width: 100px;
+    height: 75px;
+    width: 75px;
     display: block;
     margin-top: 5px;
 }
@@ -116,12 +116,36 @@ body {
     position: fixed;
     top: 65px;
     right: 10px;
-    width: 250px;
-    height: 400px;
+    width: 210px;
+    height: 250px;
 }
 
 #centini-client .close {
     margin-top: -3px;
+}
+
+#centini-client .btn-group {
+    margin-bottom: 2px;
+}
+
+#centini-client button {
+    padding: 2px 2px 2px 8px;
+    width: 60px;
+}
+
+#centini-client h5 {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    text-align: left;
+}
+
+#phone-button {
+    margin-top: 4px;
+    margin-bottom: 4px !important;
+}
+
+#phone-button button {
+    padding-left: 2px;
 }
 
 #external-url {
