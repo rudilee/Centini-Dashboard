@@ -22,7 +22,7 @@ app.handlers = {
                 $('#user-fullname').text(headers.fullname);
                 
                 if (headers.level === 'Administrator') {
-                   app.common.template('#content-body', 'administration.html', app.handlers.administration.loaded)();
+                    app.common.template('#content-body', 'administration.html', app.handlers.administration.loaded)();
                 }
             },
             changePassword: function (headers) {
@@ -96,7 +96,16 @@ app.handlers = {
     },
     administration: {
         loaded: function (responseText, textStatus, jqXHR) {
+            $('#manage-users').click(app.common.template('#content-panel', 'managements/manage_users.html', app.handlers.administration.manageUsers.loaded));
             $('#queue-statistics').click(app.common.template('#content-panel', 'reports/queue_statistics.html', app.handlers.administration.queueStatistics.loaded));
+        },
+        manageUsers: {
+            loaded: function (responseText, textStatus, jqXHR) {
+                $('.edit-user').click(app.handlers.administration.manageUsers.editUser);
+            },
+            editUser: function () {
+                $('#user-dialog').modal();
+            }
         },
         queueStatistics: {
             loaded: function (responseText, textStatus, jqXHR) {

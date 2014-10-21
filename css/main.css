@@ -82,3 +82,19 @@ body {
     padding-right: 40px;
     padding-left: 40px;
 }
+
+.report-icon {
+    height: 100px;
+    width: 100px;
+    display: block;
+    margin-top: 5px;
+}
+
+.caption {
+    text-align: center;
+}
+
+.row-fixed {
+    width: 10px;
+    text-align: center;
+}
