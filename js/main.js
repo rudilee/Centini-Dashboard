@@ -24,5 +24,8 @@ jQuery(document).ready(function ($) {
     });
 	
     // Tampilin form login
-    app.common.template('#content-wrap', 'login.html', app.handlers.loginForm.loaded)();;
+    app.common.template('#content-wrap', 'login.html', app.handlers.loginForm.loaded)();
+    
+    // Setup fungsi2 interface
+    app.handlers.main.centiniClient.load();
 });

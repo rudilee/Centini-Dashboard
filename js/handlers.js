@@ -1,4 +1,35 @@
 app.handlers = {
+    main: {
+        centiniClient: {
+            load: function () {
+                // Setup fungsi interface panel Centini Client
+                $('#centini-client .close').click(app.handlers.main.centiniClient.hide);
+
+                $('#transfer').popover({
+                    html: true,
+                    placement: 'bottom',
+                    container: '#centini-client .panel-body',
+                    content: function () {
+                        return $('#transfer-popup').html();
+                    }
+                });
+
+                $('#transfer').on('show.bs.popover', function () {
+                    $('#transfer').addClass('active');
+                }).on('hide.bs.popover', function () {
+                    $('#transfer').removeClass('active');
+                });
+            },
+            show: function (event) {
+                $('#centini-client').show();
+                $('#centini-client-button').addClass('hidden');
+            },
+            hide: function (event) {
+                $('#centini-client').hide();
+                $('#centini-client-button').removeClass('hidden');
+            }
+        }
+    },
     centini: {
         connected: function () {
             console.log('Centini Client connected..');
@@ -24,7 +55,7 @@ app.handlers = {
                 if (headers.level === 'Administrator') {
                     app.common.template('#content-body', 'administration.html', app.handlers.administration.loaded)();
                 } else if (['Agent', 'Supervisor', 'Manager'].indexOf(headers.level) > -1) {
-                    app.common.template('#content-body', 'client.html', app.handlers.client.loaded)();
+                    app.common.template('#content-body', 'workspace.html', app.handlers.workspace.loaded)();
                 }
             },
             changePassword: function (headers) {
@@ -43,11 +74,11 @@ app.handlers = {
     },
     loginForm: {
         loaded: function (responseText, textStatus, jqXHR) {
+            $('#centini-client').addClass('hidden');
+            $('#external-url').addClass('hidden').attr('src', '');
             $('#content-wrap').removeClass('container-fluid').addClass('container');
             
             $('#login-form').submit(app.handlers.loginForm.submit);
-            
-            $('#external-url').addClass('hidden').attr('src', '');
         },
         submit: function (event) {
             app.centini.connectTo(app.settings.centini.host, app.settings.centini.port);
@@ -57,12 +88,13 @@ app.handlers = {
     },
     dashboard: {
         loaded: function (responseText, textStatus, jqXHR) {
-            $('#content-wrap').removeClass('container').addClass('container-fluid');
-            
             $('#change-password').click(app.handlers.dashboard.changePassword.show);
             $('#change-password-form').submit(app.handlers.dashboard.changePassword.submit);
             $('#change-password-dialog').on('hidden.bs.modal', app.handlers.dashboard.changePassword.hidden);
             
+            $('#content-wrap').removeClass('container').addClass('container-fluid');
+            
+            $('#centini-client-button').click(app.handlers.main.centiniClient.show);
             $('#logout').click(app.handlers.dashboard.logout);
             
             app.centini.status();
@@ -70,6 +102,13 @@ app.handlers = {
         changePassword: {
             show: function () {
                 $('#change-password-dialog').modal();
+            },
+            hidden: function () {
+                $('#change-password-dialog .alert').addClass('hidden');
+                
+                $('#password').val('');
+                $('#new-password').val('');
+                $('#new-password-confirm').val('');
             },
             submit: function (event) {
                 var password = $('#password').val(),
@@ -83,13 +122,6 @@ app.handlers = {
                 }
                 
                 event.preventDefault();
-            },
-            hidden: function () {
-                $('#change-password-dialog .alert').addClass('hidden');
-                
-                $('#password').val('');
-                $('#new-password').val('');
-                $('#new-password-confirm').val('');
             },
             alert: function (success, message) {
                 $('#change-password-dialog .alert').addClass(success ? 'alert-success' : 'alert-danger').text(message).removeClass('hidden');
@@ -118,37 +150,10 @@ app.handlers = {
             }
         }
     },
-    client: {
+    workspace: {
         loaded: function (responseText, textStatus, jqXHR) {
-            $('#centini-client-button').click(app.handlers.client.centiniClient.show);
-            $('#centini-client .close').click(app.handlers.client.centiniClient.hide);
-            
-            $('#transfer').popover({
-                html: true,
-                placement: 'bottom',
-                container: '#centini-client .panel-body',
-                content: function () {
-                    return $('#transfer-popup').html();
-                }
-            });
-            
-            $('#transfer').on('show.bs.popover', function () {
-                $('#transfer').addClass('active');
-            }).on('hide.bs.popover', function () {
-                $('#transfer').removeClass('active');
-            });
-            
+            $('#centini-client').removeClass('hidden');
             $('#external-url').removeClass('hidden').attr('src', 'http://192.168.1.8/');
-        },
-        centiniClient: {
-            show: function (event) {
-                $('#centini-client').show();
-                $('#centini-client-button').addClass('hidden');
-            },
-            hide: function (event) {
-                $('#centini-client').hide();
-                $('#centini-client-button').removeClass('hidden');
-            }
         }
     }
 };
