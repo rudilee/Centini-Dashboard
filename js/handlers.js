@@ -123,7 +123,22 @@ app.handlers = {
             $('#centini-client-button').click(app.handlers.client.centiniClient.show);
             $('#centini-client .close').click(app.handlers.client.centiniClient.hide);
             
-            $('#external-url').removeClass('hidden').attr('src', 'https://demos2.softaculous.com/SugarCRM/index.php');
+            $('#transfer').popover({
+                html: true,
+                placement: 'bottom',
+                container: '#centini-client .panel-body',
+                content: function () {
+                    return $('#transfer-popup').html();
+                }
+            });
+            
+            $('#transfer').on('show.bs.popover', function () {
+                $('#transfer').addClass('active');
+            }).on('hide.bs.popover', function () {
+                $('#transfer').removeClass('active');
+            });
+            
+            $('#external-url').removeClass('hidden').attr('src', 'http://192.168.1.8/');
         },
         centiniClient: {
             show: function (event) {

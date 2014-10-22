@@ -114,10 +114,11 @@ body {
 
 #centini-client {
     position: fixed;
-    top: 65px;
-    right: 10px;
+    bottom: 0;
+    right: 20px;
     width: 210px;
     height: 250px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
 #centini-client .close {
@@ -128,7 +129,7 @@ body {
     margin-bottom: 2px;
 }
 
-#centini-client button {
+#centini-client > .panel-body > .btn-group > button {
     padding: 2px 2px 2px 8px;
     width: 60px;
 }
@@ -144,8 +145,14 @@ body {
     margin-bottom: 4px !important;
 }
 
-#phone-button button {
-    padding-left: 2px;
+#phone-button .btn {
+    padding: 4px 2px !important;
+    font-size: 16px;
+}
+
+#phone-button .btn-warning {
+    padding-top: 5px !important;
+    padding-bottom: 3px !important;
 }
 
 #external-url {
