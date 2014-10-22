@@ -46,7 +46,7 @@ CentiniClient.prototype.onError = function (event) {
 };
 
 CentiniClient.prototype.onMessage = function (event) {
-//    console.log('Headers: ' + event.data);
+    console.log('Headers: ' + event.data);
     
     var headers = JSON.parse(event.data),
         isRequest = typeof headers.request !== 'undefined',

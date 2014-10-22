@@ -26,6 +26,6 @@ jQuery(document).ready(function ($) {
     // Tampilin form login
     app.common.template('#content-wrap', 'login.html', app.handlers.loginForm.loaded)();
     
-    // Setup fungsi2 interface
-    app.handlers.main.centiniClient.load();
+    // Setup fungsi2 interface Centini Client
+    app.handlers.centini.client.load();
 });

@@ -1,35 +1,4 @@
 app.handlers = {
-    main: {
-        centiniClient: {
-            load: function () {
-                // Setup fungsi interface panel Centini Client
-                $('#centini-client .close').click(app.handlers.main.centiniClient.hide);
-
-                $('#transfer').popover({
-                    html: true,
-                    placement: 'bottom',
-                    container: '#centini-client .panel-body',
-                    content: function () {
-                        return $('#transfer-popup').html();
-                    }
-                });
-
-                $('#transfer').on('show.bs.popover', function () {
-                    $('#transfer').addClass('active');
-                }).on('hide.bs.popover', function () {
-                    $('#transfer').removeClass('active');
-                });
-            },
-            show: function (event) {
-                $('#centini-client').show();
-                $('#centini-client-button').addClass('hidden');
-            },
-            hide: function (event) {
-                $('#centini-client').hide();
-                $('#centini-client-button').removeClass('hidden');
-            }
-        }
-    },
     centini: {
         connected: function () {
             console.log('Centini Client connected..');
@@ -70,6 +39,60 @@ app.handlers = {
             actionReady: function (headers) {
                 app.centini.login($('#username').val(), $('#password').val());
             }
+        },
+        client: {
+            load: function () {
+                // Setup fungsi interface panel Centini Client
+                $('#centini-client .close').click(app.handlers.centini.client.hide);
+
+                $('#transfer').popover({
+                    html: true,
+                    placement: 'bottom',
+                    container: '#centini-client .panel-body',
+                    content: function () {
+                        return $('#transfer-popup').html();
+                    }
+                });
+
+                $('#transfer').on('show.bs.popover', function () {
+                    $('#transfer').addClass('active');
+                }).on('hide.bs.popover', function () {
+                    $('#transfer').removeClass('active');
+                });
+                
+                $('#dial').click(app.handlers.centini.client.dial);
+                $('#proceed-transfer').click(app.handlers.centini.client.transfer);
+                $('#hangup').click(app.handlers.centini.client.hangup);
+                $('.dialpad button').click(app.handlers.centini.client.digit);
+            },
+            show: function (event) {
+                $('#centini-client').show();
+                $('#centini-client-button').addClass('hidden');
+            },
+            hide: function (event) {
+                $('#centini-client').hide();
+                $('#centini-client-button').removeClass('hidden');
+            },
+            dial: function (event) {
+                var destination = $('#phone-number').val();
+                
+                if (typeof destination !== 'undefined') {
+                    app.centini.dial(destination);
+                }
+            },
+            transfer: function (event) {
+                var destination = $('#transfer-number').val();
+                
+                if (typeof destination !== 'undefined') {
+                    app.centini.transfer(destination);
+                }
+            },
+            hangup: function (event) {
+                app.centini.hangup();
+            },
+            digit: function (event) {
+                app.centini.sendDigit(this.dataset.digit);
+            }
         }
     },
     loginForm: {
@@ -94,7 +117,7 @@ app.handlers = {
             
             $('#content-wrap').removeClass('container').addClass('container-fluid');
             
-            $('#centini-client-button').click(app.handlers.main.centiniClient.show);
+            $('#centini-client-button').click(app.handlers.centini.client.show);
             $('#logout').click(app.handlers.dashboard.logout);
             
             app.centini.status();
