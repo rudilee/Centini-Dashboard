@@ -38,6 +38,21 @@ app.handlers = {
         event: {
             actionReady: function (headers) {
                 app.centini.login($('#username').val(), $('#password').val());
+            },
+            loggedIn: function (headers) {
+                ;
+            },
+            loggedOut: function (headers) {
+                ;
+            },
+            peerChanged: function (headers) {
+                ;
+            },
+            queueStateChanged: function (headers) {
+                ;
+            },
+            phoneStateChanged: function (headers) {
+                ;
             }
         },
         client: {
@@ -60,6 +75,7 @@ app.handlers = {
                     $('#transfer').removeClass('active');
                 });
                 
+                $('#resume').click(app.handlers.centini.client.resume);
                 $('#dial').click(app.handlers.centini.client.dial);
                 $('#proceed-transfer').click(app.handlers.centini.client.transfer);
                 $('#hangup').click(app.handlers.centini.client.hangup);
@@ -72,6 +88,9 @@ app.handlers = {
             hide: function (event) {
                 $('#centini-client').hide();
                 $('#centini-client-button').removeClass('hidden');
+            },
+            resume: function (event) {
+                ;
             },
             dial: function (event) {
                 var destination = $('#phone-number').val();
