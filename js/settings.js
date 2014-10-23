@@ -1,9 +1,9 @@
 app.settings = {
     ajax: {
-        cache: true
+        cache: false
     },
     centini: {
-        host: 'localhost',
+        host: '192.168.1.111',
         port: 8080
     },
     template: {

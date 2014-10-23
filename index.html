@@ -31,7 +31,7 @@
         </div>
 
         <!--Panel Centini Client-->
-        <div id="centini-client" class="panel panel-default hidden">
+        <div id="centini-client" class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">Centini Client <a href="#"><span class="close">×</span></a></h3>
             </div>
@@ -42,17 +42,17 @@
                 </div>
                 <div class="input-group input-group-sm">
                     <div class="input-group-btn">
-                        <button id="resume" class="btn btn-info" type="button" disabled>
+                        <button id="resume" class="btn btn-info" type="button">
                             <span class="glyphicon glyphicon-pause"></span>
                         </button>
                     </div>
                     <select id="pause-reason" class="form-control">
                         <option>Pilih reason..</option>
-                        <option>Istirahat</option>
-                        <option>Toilet</option>
-                        <option>Makan siang</option>
-                        <option>Bobo ciang</option>
-                        <option>Ngegosyip</option>
+                        <option value="ISTIRAHAT">Istirahat</option>
+                        <option value="TOILET">Toilet</option>
+                        <option value="LUNCH">Makan siang</option>
+                        <option value="TIDUR">Bobo ciang</option>
+                        <option value="NGOBROL">Ngegosyip</option>
                     </select>
                 </div>
                 <div id="phone-number-duration" class="input-group input-group-sm">
@@ -70,11 +70,11 @@
                         <span class="glyphicon glyphicon-phone-alt"></span>
                     </button>
                 </div>
-                <div id="transfer-popup" class="hidden">
+                <div id="transfer-popup">
                     <div class="input-group input-group-sm">
-                        <input id="transfer-number" class="form-control" type="text" autofocus/>
+                        <input class="form-control transfer-number" type="text" autofocus/>
                         <span class="input-group-btn">
-                            <button id="proceed-transfer" class="btn btn-default" type="button">
+                            <button class="btn btn-default proceed-transfer" type="button">
                                 <span class="glyphicon glyphicon-ok"></span>
                             </button>
                         </span>
@@ -104,7 +104,7 @@
         </div>
         
         <!--Frame buat nampilin URL(misal: sales script, informasi, dll)-->
-        <iframe id="external-url" class="hidden" seamless></iframe>
+        <iframe id="external-url" seamless></iframe>
 
         <div id="content-wrap" class="container"></div>
         

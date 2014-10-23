@@ -4,6 +4,8 @@ app.handlers = {
             console.log('Centini Client connected..');
         },
         disconnected: function () {
+            app.handlers.centini.response.logout();
+            
             console.log('Centini Client disconnected..');
         },
         response: {
@@ -18,8 +20,14 @@ app.handlers = {
             logout: function (headers) {
                 app.common.template('#content-wrap', 'login.html', app.handlers.loginForm.loaded)();
             },
+            transfer: function (headers) {
+                if (headers.success) {
+                    $('#transfer').popover('hide');
+                }
+            },
             status: function (headers) {
                 $('#user-fullname').text(headers.fullname);
+                $('#peer-extension').val(headers.peer);
                 
                 if (headers.level === 'Administrator') {
                     app.common.template('#content-body', 'administration.html', app.handlers.administration.loaded)();
@@ -46,13 +54,40 @@ app.handlers = {
                 ;
             },
             peerChanged: function (headers) {
-                ;
+                $('#peer-extension').val(headers.peer);
             },
             queueStateChanged: function (headers) {
-                ;
+                switch (headers.queue_state) {
+                    case 'Joined':
+                        $('#resume').attr('disabled', '');
+                        $('#pause-reason').removeAttr('disabled').val('Pilih reason..');
+                        break;
+                    case 'Paused':
+                        $('#resume').removeAttr('disabled');
+                        $('#pause-reason').attr('disabled', '');
+                        break;
+                    case 'None':
+                        $('#resume').attr('disabled', '');
+                        $('#pause-reason').attr('disabled', '');
+                }
             },
             phoneStateChanged: function (headers) {
-                ;
+                switch (headers.phone_state) {
+                    case 'Busy':
+                        $('#transfer').removeAttr('disabled');
+                        $('#centini-client .dialpad button').removeAttr('disabled');
+                    case 'Ringing':
+                        $('#dial').attr('disabled', '');
+                        $('#hangup').removeAttr('disabled');
+                        break;
+                    case 'Clear':
+                        $('#phone-number').val('');
+                        $('#dial').removeAttr('disabled');
+                        $('#transfer').attr('disabled', '');
+                        $('#transfer').popover('hide');
+                        $('#hangup').attr('disabled', '');
+                        $('#centini-client .dialpad button').attr('disabled', '');
+                }
             }
         },
         client: {
@@ -71,26 +106,35 @@ app.handlers = {
 
                 $('#transfer').on('show.bs.popover', function () {
                     $('#transfer').addClass('active');
+                }).on('shown.bs.popover', function () {
+                    $('#centini-client .popover .proceed-transfer').click(app.handlers.centini.client.transfer);
                 }).on('hide.bs.popover', function () {
                     $('#transfer').removeClass('active');
                 });
                 
+                $('#pause-reason').change(app.handlers.centini.client.pause);
                 $('#resume').click(app.handlers.centini.client.resume);
                 $('#dial').click(app.handlers.centini.client.dial);
-                $('#proceed-transfer').click(app.handlers.centini.client.transfer);
                 $('#hangup').click(app.handlers.centini.client.hangup);
                 $('.dialpad button').click(app.handlers.centini.client.digit);
             },
             show: function (event) {
                 $('#centini-client').show();
-                $('#centini-client-button').addClass('hidden');
+                $('#centini-client-button').hide();
             },
             hide: function (event) {
                 $('#centini-client').hide();
-                $('#centini-client-button').removeClass('hidden');
+                $('#centini-client-button').show();
+            },
+            pause: function (event) {
+                var reason = $(this).val();
+                
+                if (reason !== '') {
+                    app.centini.pause(true, reason);
+                }
             },
             resume: function (event) {
-                ;
+                app.centini.pause(false);
             },
             dial: function (event) {
                 var destination = $('#phone-number').val();
@@ -100,7 +144,7 @@ app.handlers = {
                 }
             },
             transfer: function (event) {
-                var destination = $('#transfer-number').val();
+                var destination = $('#centini-client .popover .transfer-number').val();
                 
                 if (typeof destination !== 'undefined') {
                     app.centini.transfer(destination);
@@ -116,8 +160,8 @@ app.handlers = {
     },
     loginForm: {
         loaded: function (responseText, textStatus, jqXHR) {
-            $('#centini-client').addClass('hidden');
-            $('#external-url').addClass('hidden').attr('src', '');
+            $('#centini-client').hide();
+            $('#external-url').hide().attr('src', '');
             $('#content-wrap').removeClass('container-fluid').addClass('container');
             
             $('#login-form').submit(app.handlers.loginForm.submit);
@@ -194,8 +238,8 @@ app.handlers = {
     },
     workspace: {
         loaded: function (responseText, textStatus, jqXHR) {
-            $('#centini-client').removeClass('hidden');
-            $('#external-url').removeClass('hidden').attr('src', 'http://192.168.1.8/');
+            $('#centini-client').show();
+            $('#external-url').show().attr('src', 'http://192.168.1.8/');
         }
     }
 };

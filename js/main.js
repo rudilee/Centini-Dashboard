@@ -12,6 +12,7 @@ jQuery(document).ready(function ($) {
     // Response dari Action
     app.centini.onResponse('Login', app.handlers.centini.response.login);
     app.centini.onResponse('Logout', app.handlers.centini.response.logout);
+    app.centini.onResponse('Transfer', app.handlers.centini.response.transfer);
     // Response dari Request
     app.centini.onResponse('Status', app.handlers.centini.response.status);
     app.centini.onResponse('ChangePassword', app.handlers.centini.response.changePassword);

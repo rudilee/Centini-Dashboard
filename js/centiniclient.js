@@ -178,6 +178,10 @@ CentiniClient.prototype.pause = function (paused, reason) {
         reason: reason
     };
     
+    if (typeof reason === 'undefined') {
+        headers.reason = reason;
+    }
+    
     this.sendAction('Pause', headers);
 };
 
