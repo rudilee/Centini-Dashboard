@@ -74,6 +74,8 @@ app.handlers = {
             phoneStateChanged: function (headers) {
                 switch (headers.phone_state) {
                     case 'Busy':
+                        $('#phone-number-duration').addClass('input-group');
+                        $('#call-duration').show().stopwatch('start');
                         $('#transfer').removeAttr('disabled');
                         $('#centini-client .dialpad button').removeAttr('disabled');
                     case 'Ringing':
@@ -82,11 +84,16 @@ app.handlers = {
                         break;
                     case 'Clear':
                         $('#phone-number').val('');
+                        $('#phone-number-duration').removeClass('input-group');
+                        $('#call-duration').hide().stopwatch('stop');
+                        
                         $('#dial').removeAttr('disabled');
                         $('#transfer').attr('disabled', '');
                         $('#transfer').popover('hide');
                         $('#hangup').attr('disabled', '');
+                        
                         $('#centini-client .dialpad button').attr('disabled', '');
+                        break;
                 }
             }
         },
@@ -112,6 +119,7 @@ app.handlers = {
                     $('#transfer').removeClass('active');
                 });
                 
+                $('#call-duration').stopwatch();
                 $('#pause-reason').change(app.handlers.centini.client.pause);
                 $('#resume').click(app.handlers.centini.client.resume);
                 $('#dial').click(app.handlers.centini.client.dial);
