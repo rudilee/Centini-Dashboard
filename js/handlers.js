@@ -76,6 +76,7 @@ app.handlers = {
                     case 'Busy':
                         $('#phone-number-duration').addClass('input-group');
                         $('#call-duration').show().stopwatch('start');
+                        $('#hold').removeAttr('disabled');
                         $('#transfer').removeAttr('disabled');
                         $('#centini-client .dialpad button').removeAttr('disabled');
                     case 'Ringing':
@@ -88,6 +89,7 @@ app.handlers = {
                         $('#call-duration').hide().stopwatch('stop');
                         
                         $('#dial').removeAttr('disabled');
+                        $('#hold').attr('disabled', '');
                         $('#transfer').attr('disabled', '');
                         $('#transfer').popover('hide');
                         $('#hangup').attr('disabled', '');

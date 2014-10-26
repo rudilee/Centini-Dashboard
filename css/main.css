@@ -130,7 +130,7 @@ body {
     margin-bottom: 2px;
 }
 
-#centini-client > .panel-body > .btn-group > button {
+.dialpad > button {
     padding: 2px 2px 2px 8px;
     width: 60px;
 }
@@ -155,18 +155,14 @@ body {
     margin-bottom: 0px !important;
 }
 
-#call-duration {
-    padding-left: 5px !important;
-    padding-right: 5px !important;
-}
-
 #phone-button {
     margin-top: 4px;
     margin-bottom: 4px !important;
 }
 
 #phone-button .btn {
-    padding: 4px 2px !important;
+    padding: 4px 2px;
+    width: 45px;
     font-size: 16px;
 }
 
