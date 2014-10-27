@@ -160,14 +160,22 @@ body {
     margin-bottom: 4px !important;
 }
 
-#phone-button .btn {
-    padding: 4px 2px;
+#phone-button button {
     width: 45px;
     font-size: 16px;
 }
 
-#phone-button .btn-warning {
-    padding-top: 5px !important;
+#dial, #hangup {
+    padding-bottom: 5px !important;
+}
+
+#mute {
+    padding-bottom: 4px !important;
+    padding-top: 7px;
+}
+
+#transfer {
+    padding-top: 8px !important;
     padding-bottom: 3px !important;
 }
 

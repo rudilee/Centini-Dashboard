@@ -126,6 +126,14 @@ CentiniClient.prototype.dial = function (number, username) {
     this.sendAction('Dial', headers);
 };
 
+CentiniClient.prototype.hold = function (onHold) {
+    var headers = {
+        on_hold: onHold
+    };
+    
+    this.sendAction('Hold', headers);
+}
+
 CentiniClient.prototype.hangup = function (username) {
     var headers = {};
     

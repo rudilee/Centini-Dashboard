@@ -4,6 +4,7 @@ app.handlers = {
             console.log('Centini Client connected..');
         },
         disconnected: function () {
+            app.handlers.centini.client.duration.stop();
             app.handlers.centini.response.logout();
             
             console.log('Centini Client disconnected..');
@@ -28,6 +29,8 @@ app.handlers = {
             status: function (headers) {
                 $('#user-fullname').text(headers.fullname);
                 $('#peer-extension').val(headers.peer);
+                
+                app.handlers.centini.client.duration.seconds = headers.duration;
                 
                 if (headers.level === 'Administrator') {
                     app.common.template('#content-body', 'administration.html', app.handlers.administration.loaded)();
@@ -74,9 +77,9 @@ app.handlers = {
             phoneStateChanged: function (headers) {
                 switch (headers.phone_state) {
                     case 'Busy':
-                        $('#phone-number-duration').addClass('input-group');
-                        $('#call-duration').show().stopwatch('start');
-                        $('#hold').removeAttr('disabled');
+                        app.handlers.centini.client.duration.start();
+                        
+                        $('#mute').removeAttr('disabled');
                         $('#transfer').removeAttr('disabled');
                         $('#centini-client .dialpad button').removeAttr('disabled');
                     case 'Ringing':
@@ -85,11 +88,11 @@ app.handlers = {
                         break;
                     case 'Clear':
                         $('#phone-number').val('');
-                        $('#phone-number-duration').removeClass('input-group');
-                        $('#call-duration').hide().stopwatch('stop');
+                        
+                        app.handlers.centini.client.duration.stop();
                         
                         $('#dial').removeAttr('disabled');
-                        $('#hold').attr('disabled', '');
+                        $('#mute').attr('disabled', '');
                         $('#transfer').attr('disabled', '');
                         $('#transfer').popover('hide');
                         $('#hangup').attr('disabled', '');
@@ -121,10 +124,10 @@ app.handlers = {
                     $('#transfer').removeClass('active');
                 });
                 
-                $('#call-duration').stopwatch();
                 $('#pause-reason').change(app.handlers.centini.client.pause);
                 $('#resume').click(app.handlers.centini.client.resume);
                 $('#dial').click(app.handlers.centini.client.dial);
+                $('#mute').click(app.handlers.centini.client.hold);
                 $('#hangup').click(app.handlers.centini.client.hangup);
                 $('.dialpad button').click(app.handlers.centini.client.digit);
             },
@@ -135,6 +138,56 @@ app.handlers = {
             hide: function (event) {
                 $('#centini-client').hide();
                 $('#centini-client-button').show();
+            },
+            duration: {
+                seconds: 0,
+                intervalId: null,
+                start: function () {
+                    $('#phone-number-duration').addClass('input-group');
+                    $('#call-duration').show();
+                    
+                    if (app.handlers.centini.client.duration.intervalId !== null) {
+                        window.clearInterval(app.handlers.centini.client.duration.intervalId);
+                    }
+                    
+                    app.handlers.centini.client.duration.intervalId = window.setInterval(app.handlers.centini.client.duration.interval, 1000);
+                },
+                stop: function () {
+                    $('#phone-number-duration').removeClass('input-group');
+                    $('#call-duration').text('00:00:00').hide();
+                    
+                    app.handlers.centini.client.duration.seconds = 0;
+                    
+                    if (app.handlers.centini.client.duration.intervalId !== null) {
+                        window.clearInterval(app.handlers.centini.client.duration.intervalId);
+                    }
+                },
+                interval: function () {
+                    var duration = app.handlers.centini.client.duration.format(++app.handlers.centini.client.duration.seconds);
+                    
+                    $('#call-duration').text(duration);
+                },
+                format: function (sec_num) {
+                    // Sumber: http://stackoverflow.com/a/6313008
+                    
+                    var hours = Math.floor(sec_num / 3600);
+                    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+                    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+                    if (hours < 10) {
+                        hours = "0" + hours;
+                    }
+                    
+                    if (minutes < 10) {
+                        minutes = "0" + minutes;
+                    }
+                    
+                    if (seconds < 10) {
+                        seconds = "0" + seconds;
+                    }
+                    
+                    return hours + ':' + minutes + ':' + seconds;
+                }
             },
             pause: function (event) {
                 var reason = $(this).val();
@@ -152,6 +205,9 @@ app.handlers = {
                 if (typeof destination !== 'undefined') {
                     app.centini.dial(destination);
                 }
+            },
+            hold: function (event) {
+                app.centini.hold(true);
             },
             transfer: function (event) {
                 var destination = $('#centini-client .popover .transfer-number').val();

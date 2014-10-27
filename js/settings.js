@@ -3,7 +3,7 @@ app.settings = {
         cache: false
     },
     centini: {
-        host: 'localhost',
+        host: 'centini.app',
         port: 8080
     },
     template: {
