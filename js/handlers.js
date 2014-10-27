@@ -7,6 +7,8 @@ app.handlers = {
             app.handlers.centini.client.duration.stop();
             app.handlers.centini.response.logout();
             
+            $('#users-monitor').hide();
+            
             console.log('Centini Client disconnected..');
         },
         response: {
@@ -34,7 +36,9 @@ app.handlers = {
                 
                 if (headers.level === 'Administrator') {
                     app.common.template('#content-body', 'administration.html', app.handlers.administration.loaded)();
-                } else if (['Agent', 'Supervisor', 'Manager'].indexOf(headers.level) > -1) {
+                } else if (['Supervisor', 'Manager'].indexOf(headers.level) > -1) {
+                    $('#users-monitor').show();
+                } else if (headers.level === 'Agent') {
                     app.common.template('#content-body', 'workspace.html', app.handlers.workspace.loaded)();
                 }
             },
