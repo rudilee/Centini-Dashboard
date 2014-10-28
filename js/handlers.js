@@ -7,6 +7,7 @@ app.handlers = {
             app.handlers.centini.client.duration.stop();
             app.handlers.centini.response.logout();
             
+            $('#pause-reason').val('Pilih reason.');
             $('#users-monitor').hide();
             
             console.log('Centini Client disconnected..');
@@ -31,12 +32,14 @@ app.handlers = {
             status: function (headers) {
                 $('#user-fullname').text(headers.fullname);
                 $('#peer-extension').val(headers.peer);
+                $('#pause-reason').val(headers.pause_reason);
                 
                 app.handlers.centini.client.duration.seconds = headers.duration;
                 
                 if (headers.level === 'Administrator') {
                     app.common.template('#content-body', 'administration.html', app.handlers.administration.loaded)();
                 } else if (['Supervisor', 'Manager'].indexOf(headers.level) > -1) {
+                    $('#centini-client-button').show();
                     $('#users-monitor').show();
                 } else if (headers.level === 'Agent') {
                     app.common.template('#content-body', 'workspace.html', app.handlers.workspace.loaded)();
@@ -144,9 +147,10 @@ app.handlers = {
                 $('#centini-client-button').show();
             },
             duration: {
-                seconds: 0,
                 intervalId: null,
                 start: function () {
+                    app.handlers.centini.client.duration.seconds = 0;
+                    
                     $('#phone-number-duration').addClass('input-group');
                     $('#call-duration').show();
                     
