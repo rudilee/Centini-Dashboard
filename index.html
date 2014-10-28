@@ -108,48 +108,25 @@
         
         <!--Panel untuk Agents Monitoring-->
         <div id="users-monitor">
-            <div class="row">
-                <div class="col-xs-4 col-md-2 col-sm-3">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">Panel header</div>
-                        <div class="panel-body">
-                            Panel content
+            <div id="client-template" class="col-xs-4 col-md-2 col-sm-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong class="username">Username</strong>
+                        <div class="dropdown pull-right">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-cog" style="font-size: 16px;"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#" class="call">Call Extension</a></li>
+                                <li><a href="#" class="transfer">Transfer Call</a></li>
+                                <li><a href="#" class="hangup">Hangup Call</a></li>
+                            </ul>
                         </div>
                     </div>
-                </div>
-                <div class="col-xs-4 col-md-2 col-sm-3">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">Panel header</div>
-                        <div class="panel-body">
-                            Panel content
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-4 col-md-2 col-sm-3">
-                    <div class="panel panel-warning">
-                        <div class="panel-heading">Panel header</div>
-                        <div class="panel-body">
-                            Panel content
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-4 col-md-2 col-sm-3">
-                    <div class="panel panel-danger">
-                        <div class="panel-heading">Panel header</div>
-                        <div class="panel-body">
-                            Panel content
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-4 col-md-2 col-sm-3">
-                    <div class="panel panel-success">
-                        <div class="panel-heading">Panel header</div>
-                        <div class="panel-body">
-                            Panel content
-                        </div>
-                    </div>
+                    <div class="panel-body">Information</div>
                 </div>
             </div>
+            <div class="row"></div>
         </div>
         
         <!--Frame buat nampilin URL(misal: sales script, informasi, dll)-->
@@ -162,6 +139,7 @@
         <script src="js/centiniclient.js"></script>
         <script src="js/main.js"></script>
         <script src="js/settings.js"></script>
+        <script src="js/models.js"></script>
         <script src="js/handlers.js"></script>
         <script src="js/common.js"></script>
     </body>

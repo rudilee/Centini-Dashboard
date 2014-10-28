@@ -34,7 +34,10 @@ app.handlers = {
                 $('#peer-extension').val(headers.peer);
                 $('#pause-reason').val(headers.pause_reason);
                 
-                app.handlers.centini.client.duration.seconds = headers.duration;
+                app.models.centini.client.username = headers.username;
+                app.models.centini.client.fullname = headers.fullname;
+                app.models.centini.client.level = headers.level;
+                app.models.centini.client.duration = headers.duration;
                 
                 if (headers.level === 'Administrator') {
                     app.common.template('#content-body', 'administration.html', app.handlers.administration.loaded)();
@@ -58,55 +61,95 @@ app.handlers = {
                 app.centini.login($('#username').val(), $('#password').val());
             },
             loggedIn: function (headers) {
-                ;
+                var client = $('#client-template').clone();
+                
+                client.attr('id', headers.username);
+                client.appendTo('#users-monitor > .row');
+                
+                $('#' + headers.username + ' .username').text(headers.username);
+                
+                app.handlers.centini.event.queueStateChanged(headers);
+                app.handlers.centini.event.phoneStateChanged(headers);
             },
             loggedOut: function (headers) {
-                ;
+                $('#' + headers.username).remove();
             },
             peerChanged: function (headers) {
-                $('#peer-extension').val(headers.peer);
+                if (headers.username === app.models.centini.client.username) {
+                    $('#peer-extension').val(headers.peer);
+                }
             },
             queueStateChanged: function (headers) {
-                switch (headers.queue_state) {
-                    case 'Joined':
-                        $('#resume').attr('disabled', '');
-                        $('#pause-reason').removeAttr('disabled').val('Pilih reason..');
-                        break;
-                    case 'Paused':
-                        $('#resume').removeAttr('disabled');
-                        $('#pause-reason').attr('disabled', '');
-                        break;
-                    case 'None':
-                        $('#resume').attr('disabled', '');
-                        $('#pause-reason').attr('disabled', '');
+                if (headers.username === app.models.centini.client.username) {
+                    switch (headers.queue_state) {
+                        case 'Joined':
+                            $('#resume').attr('disabled', '');
+                            $('#pause-reason').removeAttr('disabled').val('Pilih reason..');
+                            break;
+                        case 'Paused':
+                            $('#resume').removeAttr('disabled');
+                            $('#pause-reason').attr('disabled', '');
+                            break;
+                        case 'None':
+                            $('#resume').attr('disabled', '');
+                            $('#pause-reason').attr('disabled', '');
+                    }
                 }
             },
             phoneStateChanged: function (headers) {
-                switch (headers.phone_state) {
-                    case 'Busy':
-                        app.handlers.centini.client.duration.start();
-                        
-                        $('#mute').removeAttr('disabled');
-                        $('#transfer').removeAttr('disabled');
-                        $('#centini-client .dialpad button').removeAttr('disabled');
-                    case 'Ringing':
-                        $('#dial').attr('disabled', '');
-                        $('#hangup').removeAttr('disabled');
-                        break;
-                    case 'Clear':
-                        $('#phone-number').val('');
-                        
-                        app.handlers.centini.client.duration.stop();
-                        
-                        $('#dial').removeAttr('disabled');
-                        $('#mute').attr('disabled', '');
-                        $('#transfer').attr('disabled', '');
-                        $('#transfer').popover('hide');
-                        $('#hangup').attr('disabled', '');
-                        
-                        $('#centini-client .dialpad button').attr('disabled', '');
-                        break;
+                if (headers.username === app.models.centini.client.username) {
+                    switch (headers.phone_state) {
+                        case 'Busy':
+                            app.handlers.centini.client.duration.start();
+
+                            $('#mute').removeAttr('disabled');
+                            $('#transfer').removeAttr('disabled');
+                            $('#centini-client .dialpad button').removeAttr('disabled');
+                        case 'Ringing':
+                            $('#dial').attr('disabled', '');
+                            $('#hangup').removeAttr('disabled');
+                            break;
+                        case 'Clear':
+                            $('#phone-number').val('');
+
+                            app.handlers.centini.client.duration.stop();
+
+                            $('#dial').removeAttr('disabled');
+                            $('#mute').attr('disabled', '');
+                            $('#transfer').attr('disabled', '');
+                            $('#transfer').popover('hide');
+                            $('#hangup').attr('disabled', '');
+
+                            $('#centini-client .dialpad button').attr('disabled', '');
+                            break;
+                    }
+                } else {
+                    var client = $('#' + headers.username + ' > .panel');
+                    
+                    app.handlers.centini.monitor.clearClient(client);
+                    
+                    switch (headers.phone_state) {
+                        case 'Busy':
+                            client.addClass('panel-danger');
+                            break;
+                        case 'Ringing':
+                            client.addClass('panel-warning');
+                            break;
+                        case 'Clear':
+                        default:
+                            client.addClass('panel-default');
+                            break;
+                    }
                 }
+            }
+        },
+        monitor: {
+            clearClient: function (client) {
+                client.removeClass('panel-default');
+                client.removeClass('panel-warning');
+                client.removeClass('panel-danger');
+                client.removeClass('panel-info');
+                client.removeClass('panel-primary');
             }
         },
         client: {
@@ -149,29 +192,29 @@ app.handlers = {
             duration: {
                 intervalId: null,
                 start: function () {
-                    app.handlers.centini.client.duration.seconds = 0;
+                    app.models.centini.client.duration = 0;
                     
                     $('#phone-number-duration').addClass('input-group');
                     $('#call-duration').show();
                     
-                    if (app.handlers.centini.client.duration.intervalId !== null) {
-                        window.clearInterval(app.handlers.centini.client.duration.intervalId);
+                    if (app.models.centini.client.intervalId !== null) {
+                        window.clearInterval(app.models.centini.client.intervalId);
                     }
                     
-                    app.handlers.centini.client.duration.intervalId = window.setInterval(app.handlers.centini.client.duration.interval, 1000);
+                    app.models.centini.client.intervalId = window.setInterval(app.handlers.centini.client.duration.interval, 1000);
                 },
                 stop: function () {
                     $('#phone-number-duration').removeClass('input-group');
                     $('#call-duration').text('00:00:00').hide();
                     
-                    app.handlers.centini.client.duration.seconds = 0;
+                    app.models.centini.client.duration = 0;
                     
-                    if (app.handlers.centini.client.duration.intervalId !== null) {
-                        window.clearInterval(app.handlers.centini.client.duration.intervalId);
+                    if (app.models.centini.client.intervalId !== null) {
+                        window.clearInterval(app.models.centini.client.intervalId);
                     }
                 },
                 interval: function () {
-                    var duration = app.handlers.centini.client.duration.format(++app.handlers.centini.client.duration.seconds);
+                    var duration = app.handlers.centini.client.duration.format(++app.models.centini.client.duration);
                     
                     $('#call-duration').text(duration);
                 },
