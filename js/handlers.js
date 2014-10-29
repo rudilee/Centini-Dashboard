@@ -7,7 +7,7 @@ app.handlers = {
             app.handlers.centini.client.duration.stop();
             app.handlers.centini.response.logout();
             
-            $('#pause-reason').val('Pilih reason.');
+            $('#pause-reason').val('Pilih reason..');
             $('#users-monitor').hide();
             
             console.log('Centini Client disconnected..');
@@ -32,7 +32,7 @@ app.handlers = {
             status: function (headers) {
                 $('#user-fullname').text(headers.fullname);
                 $('#peer-extension').val(headers.peer);
-                $('#pause-reason').val(headers.pause_reason);
+                $('#pause-reason').val(typeof headers.pause_reason === 'undefined' ? 'Pilih reason..' : headers.pause_reason);
                 
                 app.models.centini.client.username = headers.username;
                 app.models.centini.client.fullname = headers.fullname;
@@ -75,7 +75,7 @@ app.handlers = {
                 $('#' + headers.username).remove();
             },
             peerChanged: function (headers) {
-                if (headers.username === app.models.centini.client.username) {
+                if (typeof headers.username === 'undefined') {
                     $('#peer-extension').val(headers.peer);
                 }
             },
@@ -125,37 +125,32 @@ app.handlers = {
                     }
                 } else {
                     var client = $('#' + headers.username + ' > .panel');
-                    
-                    app.handlers.centini.monitor.clearClient(client);
+                    client.removeClass();
                     
                     switch (headers.phone_state) {
                         case 'Busy':
-                            client.addClass('panel-danger');
+                            client.addClass('panel panel-danger');
                             break;
                         case 'Ringing':
-                            client.addClass('panel-warning');
+                            client.addClass('panel panel-warning');
                             break;
                         case 'Clear':
                         default:
-                            client.addClass('panel-default');
+                            client.addClass('panel panel-default');
                             break;
                     }
                 }
-            }
-        },
-        monitor: {
-            clearClient: function (client) {
-                client.removeClass('panel-default');
-                client.removeClass('panel-warning');
-                client.removeClass('panel-danger');
-                client.removeClass('panel-info');
-                client.removeClass('panel-primary');
             }
         },
         client: {
             load: function () {
                 // Setup fungsi interface panel Centini Client
                 $('#centini-client .close').click(app.handlers.centini.client.hide);
+                
+                var pauseReason = $('#pause-reason');
+                for (var reason in app.settings.centini.reason) {
+                    pauseReason.append('<option value="' + reason + '">' + app.settings.centini.reason[reason] + '</option>');
+                }
 
                 $('#transfer').popover({
                     html: true,
@@ -195,7 +190,7 @@ app.handlers = {
                     app.models.centini.client.duration = 0;
                     
                     $('#phone-number-duration').addClass('input-group');
-                    $('#call-duration').show();
+                    $('#call-duration').removeClass('hidden');
                     
                     if (app.models.centini.client.intervalId !== null) {
                         window.clearInterval(app.models.centini.client.intervalId);
@@ -205,7 +200,7 @@ app.handlers = {
                 },
                 stop: function () {
                     $('#phone-number-duration').removeClass('input-group');
-                    $('#call-duration').text('00:00:00').hide();
+                    $('#call-duration').text('00:00:00').addClass('hidden');
                     
                     app.models.centini.client.duration = 0;
                     

@@ -42,34 +42,29 @@
                 </div>
                 <div class="input-group input-group-sm">
                     <div class="input-group-btn">
-                        <button id="resume" class="btn btn-default" type="button">
+                        <button id="resume" class="btn btn-default" type="button" disabled>
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
                     </div>
                     <select id="pause-reason" class="form-control">
                         <option>Pilih reason..</option>
-                        <option value="ISTIRAHAT">Istirahat</option>
-                        <option value="TOILET">Toilet</option>
-                        <option value="LUNCH">Makan siang</option>
-                        <option value="TIDUR">Bobo ciang</option>
-                        <option value="NGOBROL">Ngegosyip</option>
                     </select>
                 </div>
-                <div id="phone-number-duration" class="input-group input-group-sm">
+                <div id="phone-number-duration" class="input-group-sm">
                     <input id="phone-number" class="form-control" type="text" placeholder="Nomor telepon..">
-                    <div id="call-duration" class="input-group-addon">00:00:00</div>
+                    <div id="call-duration" class="input-group-addon hidden">00:00:00</div>
                 </div>
                 <div id="phone-button" class="btn-group">
-                    <button type="button" id="dial" class="btn btn-success">
+                    <button type="button" id="dial" class="btn btn-success" disabled>
                         <span class="glyphicon glyphicon-earphone"></span>
                     </button>
-                    <button type="button" id="mute" class="btn btn-info">
+                    <button type="button" id="mute" class="btn btn-info" disabled>
                         <span class="glyphicon glyphicon-volume-off"></span>
                     </button>
-                    <button type="button" id="transfer" class="btn btn-warning">
+                    <button type="button" id="transfer" class="btn btn-warning" disabled>
                         <span class="glyphicon glyphicon-transfer"></span>
                     </button>
-                    <button type="button" id="hangup" class="btn btn-danger">
+                    <button type="button" id="hangup" class="btn btn-danger" disabled>
                         <span class="glyphicon glyphicon-phone-alt"></span>
                     </button>
                 </div>
@@ -84,24 +79,24 @@
                     </div>
                 </div>
                 <div class="btn-group dialpad">
-                    <button type="button" class="btn btn-default" data-digit="1"><h5>1</h5></button>
-                    <button type="button" class="btn btn-default" data-digit="2"><h5>2 <small>ABC</small></h5></button>
-                    <button type="button" class="btn btn-default" data-digit="3"><h5>3 <small>DEF</small></h5></button>
+                    <button type="button" class="btn btn-default" data-digit="1" disabled><h5>1</h5></button>
+                    <button type="button" class="btn btn-default" data-digit="2" disabled><h5>2 <small>ABC</small></h5></button>
+                    <button type="button" class="btn btn-default" data-digit="3" disabled><h5>3 <small>DEF</small></h5></button>
                 </div>
                 <div class="btn-group dialpad">
-                    <button type="button" class="btn btn-default" data-digit="4"><h5>4 <small>GHI</small></h5></button>
-                    <button type="button" class="btn btn-default" data-digit="5"><h5>5 <small>JKL</small></h5></button>
-                    <button type="button" class="btn btn-default" data-digit="6"><h5>6 <small>MNO</small></h5></button>
+                    <button type="button" class="btn btn-default" data-digit="4" disabled><h5>4 <small>GHI</small></h5></button>
+                    <button type="button" class="btn btn-default" data-digit="5" disabled><h5>5 <small>JKL</small></h5></button>
+                    <button type="button" class="btn btn-default" data-digit="6" disabled><h5>6 <small>MNO</small></h5></button>
                 </div>
                 <div class="btn-group dialpad">
-                    <button type="button" class="btn btn-default" data-digit="7"><h5>7 <small>PQRS</small></h5></button>
-                    <button type="button" class="btn btn-default" data-digit="8"><h5>8 <small>TUV</small></h5></button>
-                    <button type="button" class="btn btn-default" data-digit="9"><h5>9 <small>WXYZ</small></h5></button>
+                    <button type="button" class="btn btn-default" data-digit="7" disabled><h5>7 <small>PQRS</small></h5></button>
+                    <button type="button" class="btn btn-default" data-digit="8" disabled><h5>8 <small>TUV</small></h5></button>
+                    <button type="button" class="btn btn-default" data-digit="9" disabled><h5>9 <small>WXYZ</small></h5></button>
                 </div>
                 <div class="btn-group dialpad">
-                    <button type="button" class="btn btn-default" data-digit="*"><h5>*</h5></button>
-                    <button type="button" class="btn btn-default" data-digit="0"><h5>0</h5></button>
-                    <button type="button" class="btn btn-default" data-digit="#"><h5>#</h5></button>
+                    <button type="button" class="btn btn-default" data-digit="*" disabled><h5>*</h5></button>
+                    <button type="button" class="btn btn-default" data-digit="0" disabled><h5>0</h5></button>
+                    <button type="button" class="btn btn-default" data-digit="#" disabled><h5>#</h5></button>
                 </div>
             </div>
         </div>
