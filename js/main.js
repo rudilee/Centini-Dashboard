@@ -1,6 +1,11 @@
+/*global jQuery*/
+/*global CentiniClient*/
+
 var app = {};
 
 jQuery(document).ready(function ($) {
+    "use strict";
+    
     // Bikin Centini Client buat nanganin komunikasi ke server Centini
     app.centini = new CentiniClient();
     

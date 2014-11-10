@@ -1,4 +1,9 @@
+/*global WebSocket*/
+/*global console*/
+
 function CentiniClient() {
+    "use strict";
+    
     this.callbacks = {
         response: {},
         event: {}
@@ -6,6 +11,8 @@ function CentiniClient() {
 }
 
 CentiniClient.prototype.connectTo = function (host, port) {
+    "use strict";
+    
     var self = this;
     
     this.socket = new WebSocket('ws://' + host + ':' + port);
@@ -16,16 +23,22 @@ CentiniClient.prototype.connectTo = function (host, port) {
 };
 
 CentiniClient.prototype.disconnect = function () {
+    "use strict";
+    
     if (this.socket.readyState === this.socket.OPEN) {
         this.socket.close();
     }
 };
 
 CentiniClient.prototype.connected = function () {
+    "use strict";
+    
     return this.socket.readyState === this.socket.OPEN;
 };
 
 CentiniClient.prototype.onOpened = function (event) {
+    "use strict";
+    
     if (this.callbacks.hasOwnProperty('connected')) {
         this.callbacks.connected(this);
     }
@@ -34,6 +47,8 @@ CentiniClient.prototype.onOpened = function (event) {
 };
 
 CentiniClient.prototype.onClosed = function (event) {
+    "use strict";
+    
     if (this.callbacks.hasOwnProperty('disconnected')) {
         this.callbacks.disconnected(this);
     }
@@ -42,10 +57,14 @@ CentiniClient.prototype.onClosed = function (event) {
 };
 
 CentiniClient.prototype.onError = function (event) {
+    "use strict";
+    
     console.log('Socket error..');
 };
 
 CentiniClient.prototype.onMessage = function (event) {
+    "use strict";
+    
     console.log('Headers: ' + event.data);
     
     var headers = JSON.parse(event.data),
@@ -64,24 +83,34 @@ CentiniClient.prototype.onMessage = function (event) {
 };
 
 CentiniClient.prototype.on = function (event, callback) {
+    "use strict";
+    
     this.callbacks[event] = callback;
 };
 
 CentiniClient.prototype.onResponse = function (response, callback) {
+    "use strict";
+    
     this.callbacks.response[response] = callback;
 };
 
 CentiniClient.prototype.onEvent = function (event, callback) {
+    "use strict";
+    
     this.callbacks.event[event] = callback;
 };
 
 CentiniClient.prototype.sendMessage = function (headers) {
+    "use strict";
+    
     if (this.socket.readyState === this.socket.OPEN) {
         this.socket.send(JSON.stringify(headers));
     }
 };
 
 CentiniClient.prototype.sendAction = function (action, headers) {
+    "use strict";
+    
     if (typeof headers === 'undefined') {
         headers = {};
     }
@@ -92,6 +121,8 @@ CentiniClient.prototype.sendAction = function (action, headers) {
 };
 
 CentiniClient.prototype.sendRequest = function (request, headers) {
+    "use strict";
+    
     if (typeof headers === 'undefined') {
         headers = {};
     }
@@ -102,6 +133,8 @@ CentiniClient.prototype.sendRequest = function (request, headers) {
 };
 
 CentiniClient.prototype.login = function (username, password) {
+    "use strict";
+    
     var headers = {
         username: username,
         password: password
@@ -111,10 +144,14 @@ CentiniClient.prototype.login = function (username, password) {
 };
 
 CentiniClient.prototype.logout = function () {
+    "use strict";
+    
     this.sendAction('Logout');
 };
 
 CentiniClient.prototype.dial = function (number, username) {
+    "use strict";
+    
     var headers = {};
     
     if (number === null) {
@@ -127,14 +164,18 @@ CentiniClient.prototype.dial = function (number, username) {
 };
 
 CentiniClient.prototype.hold = function (onHold) {
+    "use strict";
+    
     var headers = {
         on_hold: onHold
     };
     
     this.sendAction('Hold', headers);
-}
+};
 
 CentiniClient.prototype.hangup = function (username) {
+    "use strict";
+    
     var headers = {};
     
     if (typeof username === 'undefined') {
@@ -145,6 +186,8 @@ CentiniClient.prototype.hangup = function (username) {
 };
 
 CentiniClient.prototype.transfer = function (destination) {
+    "use strict";
+    
     var headers = {
         destination: destination
     };
@@ -153,6 +196,8 @@ CentiniClient.prototype.transfer = function (destination) {
 };
 
 CentiniClient.prototype.sendDigit = function (digit) {
+    "use strict";
+    
     var headers = {
         digit: digit
     };
@@ -161,6 +206,8 @@ CentiniClient.prototype.sendDigit = function (digit) {
 };
 
 CentiniClient.prototype.listen = function (username, action) {
+    "use strict";
+    
     var headers = {
         username: username
     };
@@ -173,14 +220,20 @@ CentiniClient.prototype.listen = function (username, action) {
 };
 
 CentiniClient.prototype.whisper = function (username) {
+    "use strict";
+    
     this.listen(username, 'Whisper');
 };
 
 CentiniClient.prototype.barge = function (username) {
+    "use strict";
+    
     this.listen(username, 'Barge');
 };
 
 CentiniClient.prototype.pause = function (paused, reason) {
+    "use strict";
+    
     var headers = {
         paused: paused,
         reason: reason
@@ -194,19 +247,25 @@ CentiniClient.prototype.pause = function (paused, reason) {
 };
 
 CentiniClient.prototype.status = function () {
+    "use strict";
+    
     this.sendRequest('Status');
 };
 
 CentiniClient.prototype.changePassword = function (username, password, newPassword) {
+    "use strict";
+    
     var headers = {
         new_password: newPassword
     };
     
-    if (username !== null)
+    if (username !== null) {
         headers.username = username;
+    }
     
-    if (password !== null)
+    if (password !== null) {
         headers.password = password;
+    }
     
     this.sendRequest('ChangePassword', headers);
 };

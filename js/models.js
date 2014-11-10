@@ -1,3 +1,5 @@
+/*global app*/
+
 app.models = {
     centini: {
         client: {

@@ -1,3 +1,5 @@
+/*global app*/
+
 app.settings = {
     ajax: {
         cache: false
