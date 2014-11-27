@@ -167,7 +167,7 @@ CentiniClient.prototype.hold = function (onHold) {
     "use strict";
     
     var headers = {
-        on_hold: onHold
+        hold: onHold
     };
     
     this.sendAction('Hold', headers);

@@ -150,7 +150,7 @@ app.handlers = {
                         app.handlers.centini.client.duration.stop();
 
                         $('#dial').removeAttr('disabled');
-                        $('#mute').attr('disabled', '');
+                        $('#hold').attr('disabled', '');
                         $('#transfer').attr('disabled', '');
                         $('#transfer').popover('hide');
                         $('#hangup').attr('disabled', '');
@@ -180,7 +180,7 @@ app.handlers = {
                 
                 app.handlers.centini.client.duration.start();
 
-                $('#mute').removeAttr('disabled');
+                $('#hold').removeAttr('disabled');
                 $('#transfer').removeAttr('disabled');
                 $('#centini-client .dialpad button').removeAttr('disabled');
             },
@@ -231,7 +231,7 @@ app.handlers = {
                 $('#pause-reason').change(app.handlers.centini.client.pause);
                 $('#resume').click(app.handlers.centini.client.resume);
                 $('#dial').click(app.handlers.centini.client.dial);
-                $('#mute').click(app.handlers.centini.client.hold);
+                $('#hold').click(app.handlers.centini.client.hold);
                 $('#hangup').click(app.handlers.centini.client.hangup);
                 $('.dialpad button').click(app.handlers.centini.client.digit);
             },
