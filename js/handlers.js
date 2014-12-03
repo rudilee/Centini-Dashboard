@@ -58,9 +58,7 @@ app.handlers = {
                 app.models.centini.client.level = headers.level;
                 app.models.centini.client.duration = headers.duration;
                 
-                if (headers.level === 'Administrator') {
-                    app.common.template('#content-body', 'administration.html', app.handlers.administration.loaded)();
-                } else if (['Supervisor', 'Manager'].indexOf(headers.level) > -1) {
+                if (['Supervisor', 'Manager'].indexOf(headers.level) > -1) {
                     $('#centini-client-button').show();
                     $('#users-monitor').show();
                 } else if (headers.level === 'Agent') {
@@ -446,31 +444,6 @@ app.handlers = {
             "use strict";
             
             app.centini.logout();
-        }
-    },
-    administration: {
-        loaded: function (responseText, textStatus, jqXHR) {
-            "use strict";
-            
-            $('#manage-users').click(app.common.template('#content-panel', 'managements/manage_users.html', app.handlers.administration.manageUsers.loaded));
-            $('#queue-statistics').click(app.common.template('#content-panel', 'reports/queue_statistics.html', app.handlers.administration.queueStatistics.loaded));
-        },
-        manageUsers: {
-            loaded: function (responseText, textStatus, jqXHR) {
-                "use strict";
-                
-                $('.edit-user').click(app.handlers.administration.manageUsers.editUser);
-            },
-            editUser: function () {
-                "use strict";
-                
-                $('#user-dialog').modal();
-            }
-        },
-        queueStatistics: {
-            loaded: function (responseText, textStatus, jqXHR) {
-                "use strict";
-            }
         }
     },
     workspace: {
